@@ -10,6 +10,67 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- CSS imports -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Add our fixes CSS -->
+    <style>
+        /* Ensure all sections and content are visible */
+        section, .skills-grid, .experience-card, .projects-grid, .achievements-list, 
+        .contact-content, .timeline, .fade-in, .slide-in-left, .slide-in-right {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+        }
+        
+        /* Profile image container styles */
+        .profile-image-container {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 30px rgba(108, 99, 255, 0.3);
+            overflow: hidden;
+            position: relative;
+            background-color: var(--lighter-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .btn-upload {
+            border: 2px solid var(--primary-color);
+            color: var(--text-primary);
+            background-color: var(--lighter-bg);
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .upload-btn-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+    </style>
+    
     <!-- Three.js import -->
     <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
     <script type="importmap">
@@ -56,9 +117,9 @@
                     </div>
                 </div>
                 <div class="hero-image">
-                    <!-- Placeholder for profile picture -->
-                    <div class="profile-image-placeholder">
-                        <div class="placeholder-text">Your Image Here</div>
+                    <!-- Profile image using static path -->
+                    <div class="profile-image-container">
+                        <img id="profile-image" class="profile-image" src="{{ url_for('static', filename='images/aftab.png') }}" alt="Profile Image">
                     </div>
                 </div>
             </div>
@@ -368,5 +429,48 @@
     <!-- JS imports -->
     <script type="module" src="{{ url_for('static', filename='js/three-setup.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <!-- Additional script to ensure all sections are visible -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Force all sections to be visible
+        const allSections = document.querySelectorAll('section');
+        allSections.forEach(section => {
+            section.style.opacity = '1';
+            section.style.visibility = 'visible';
+        });
+        
+        // Force all content blocks to be visible
+        const contentBlocks = document.querySelectorAll('.skills-grid, .experience-card, .projects-grid, .achievements-list, .contact-content, .timeline');
+        contentBlocks.forEach(block => {
+            block.style.opacity = '1';
+            block.style.visibility = 'visible';
+            block.style.transform = 'none';
+        });
+        
+        // Check for profile image in localStorage
+        const profileImage = document.getElementById('profile-image');
+        const savedImage = localStorage.getItem('profileImage');
+        if (savedImage && profileImage) {
+            profileImage.src = savedImage;
+        }
+        
+        // Handle image upload
+        const imageUpload = document.getElementById('image-upload');
+        if (imageUpload && profileImage) {
+            imageUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        profileImage.src = event.target.result;
+                        localStorage.setItem('profileImage', event.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>
