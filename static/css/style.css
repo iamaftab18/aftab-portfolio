@@ -157,6 +157,8 @@ nav a:hover::after {
 section {
     padding: 6rem 0;
     position: relative;
+    opacity: 1 !important; /* Override any opacity that might be hiding content */
+    visibility: visible !important;
 }
 
 .section-title {
@@ -819,4 +821,65 @@ footer {
 .slide-in-right.active {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* Update to fix visibility issues for sections */
+
+/* Fix for section animation visibility */
+section {
+    opacity: 1 !important; /* Override any opacity that might be hiding content */
+    visibility: visible !important;
+}
+
+/* Ensure content within sections is visible */
+.skills-grid,
+.experience-card,
+.projects-grid,
+.achievements-list,
+.contact-content,
+.timeline {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Fix for animation classes that might be hiding content */
+.fade-in,
+.slide-in-left,
+.slide-in-right {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Update profile image styling */
+.profile-image-container {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 30px rgba(108, 99, 255, 0.3);
+    overflow: hidden;
+    position: relative;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ensure all section content is properly spaced */
+.section-title {
+    margin-top: 0;
+    padding-top: 2rem;
+}
+
+/* Ensure responsive behavior works properly */
+@media (max-width: 768px) {
+    .skills-grid,
+    .projects-grid,
+    .contact-content,
+    .about-content {
+        display: flex;
+        flex-direction: column;
+    }
 }
